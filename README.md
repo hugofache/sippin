@@ -10,7 +10,7 @@ Users can discover cocktails they can make with ingredients at home, add their o
 Built with React Native (Web/PWA), Sippin delivers a native-like mobile experience directly in the browser with installability on any device.
 
 ### 🌐 Live Demo
-Try the app at [team3-saas.vercel.app](https://team3-saas.vercel.app)
+Try the app at [sippin.chax-home.duckdns.org](https://sippin.chax-home.duckdns.org)
 
 ### ✨ Key Features
 
@@ -32,6 +32,9 @@ Discover great cocktail bars in your area
 **Curated Shop 🛒**  
 Browse Sippin-approved bartending tools and cocktail gear from trusted partners
 
+**Push Notifications 🔔**  
+Stay connected with real-time alerts for comments, likes, event invites, and friend activity
+
 **Progressive Web App 📱**  
 - Install directly to your home screen on any device
 - Native-like mobile experience in your browser  
@@ -45,7 +48,7 @@ Browse Sippin-approved bartending tools and cocktail gear from trusted partners
 - **Styling**: NativeWind (Tailwind CSS)
 - **UI Component Library**: GlueStack UI
 - **DB**: Supabase PostgreSQL 
-- **Hosting**: Vercel
+- **Hosting**: Selfhosted
 - **CI/CD**: Github Actions 
 
 <br>

@@ -3,7 +3,9 @@
 ## Project Overview
 Sippin is a **React Native Web PWA** (Progressive Web App) for cocktail enthusiasts. Built with TypeScript, it runs primarily as a web application with native-like mobile experience. Backend powered by **Supabase** (PostgreSQL + Auth + Storage).
 
-**Live:** [team3-saas.vercel.app](https://team3-saas.vercel.app) (prod) | [team3-saasdev.vercel.app](https://team3-saasdev.vercel.app) (dev)
+**Live:** [sippin.chax-home.duckdns.org](https://sippin.chax-home.duckdns.org)
+
+**Critical Context:** This is a React Native Web app (NOT React.js). Code must run in both web and potential native contexts. Use `Platform.OS === 'web'` checks for web-only features, and prefer platform-agnostic patterns from `src/utils/platform.ts`.
 
 ## Architecture
 
@@ -12,7 +14,7 @@ Sippin is a **React Native Web PWA** (Progressive Web App) for cocktail enthusia
 - **Styling:** NativeWind (Tailwind CSS for React Native) + GlueStack UI components
 - **Backend:** Supabase (PostgreSQL, Auth, Storage, Edge Functions)
 - **Analytics:** PostHog (events) + Google Analytics 4 (acquisition)
-- **Deployment:** Vercel (auto-deploy from `main` → prod, `dev` → staging)
+- **Deployment:** Selfhosted (auto-deploy from `main`)
 
 ### Key Directories
 ```
@@ -56,6 +58,7 @@ src/
 #### Type Generation
 - Run `npm run types:generate` after schema changes to regenerate `src/types/supabase.ts`
 - Use `Tables<'TableName'>` type for DB rows: `type DBCocktail = Tables<'Cocktail'>`
+- **Never edit `src/types/supabase.ts` manually** - it's auto-generated
 
 #### Query Structure (see `src/api/cocktail.ts`)
 ```typescript
@@ -72,6 +75,16 @@ const { data, error } = await supabase
   `)
   .eq('is_public', true)
   .order('created_at', { ascending: false });
+```
+
+#### Error Handling Pattern (see any `src/api/*.ts`)
+```typescript
+// Always log errors with console.error and return safe defaults
+if (error) {
+  console.error('Error fetching cocktails:', error);
+  return []; // or null/empty object depending on context
+}
+return (data ?? []) as DBCocktail[];
 ```
 
 #### Authentication
@@ -92,19 +105,44 @@ const publicUrl = await uploadImageUri(uri, userId, 'filename.jpg', 'Log images'
 - **Authenticated:** `RootStack` → `BottomTabs` (5 tabs: Home, Explore, Add, Social, Profile)
 - **Screens:** Use `@react-navigation/native-stack` and `@react-navigation/bottom-tabs`
 - **Transitions:** Custom animations in `src/theme/navigationTransitions.ts`
+- **Screen options:** Apply `globalScreenOptions` from `navigationTransitions.ts` for consistency
 
-### 5. Analytics Tracking (see `ANALYTICS.md`)
+### 5. Platform-Specific Code
+- **Use helpers from `src/utils/platform.ts`:** `isWeb`, `isIOS`, `isAndroid`
+- **Pattern:** Check platform before using web-only APIs (e.g., `window`, `localStorage`, PWA features)
+```typescript
+import { isWeb } from '@/src/utils/platform';
+
+if (isWeb) {
+  // Web-specific code (PWA install prompt, push notifications, etc.)
+}
+```
+- **See examples:** `src/utils/pwa.ts`, `src/utils/camera.ts`, `App.tsx`
+
+### 5. Platform-Specific Code
+- **Use helpers from `src/utils/platform.ts`:** `isWeb`, `isIOS`, `isAndroid`
+- **Pattern:** Check platform before using web-only APIs (e.g., `window`, `localStorage`, PWA features)
+```typescript
+import { isWeb } from '@/src/utils/platform';
+
+if (isWeb) {
+  // Web-specific code (PWA install prompt, push notifications, etc.)
+}
+```
+- **See examples:** `src/utils/pwa.ts`, `src/utils/camera.ts`, `App.tsx`
+
+### 6. Analytics Tracking (see `ANALYTICS.md`)
 - **Always track user actions** with `posthogCapture(ANALYTICS_EVENTS.*, properties)`
 - Import: `import { posthogCapture, ANALYTICS_EVENTS } from '@/src/analytics'`
 - Track AAARRR funnel: Acquisition (signup), Activation (first cocktail), Revenue (shop clicks), Referral (shares)
 - User identification: `identifyUser(userId, traits)` in `useAuth` hook
 
-### 6. Component Conventions
+### 7. Component Conventions
 - **Export named components:** `export const CocktailCard: React.FC<Props> = ({ ... }) => { ... }`
 - **Global components** in `src/components/global/` are imported via barrel export: `import { PrimaryButton, Heading } from '@/src/components/global'`
 - **Props interfaces:** Define inline above component: `interface CocktailCardProps { ... }`
 
-### 7. Environment Variables
+### 8. Environment Variables
 - Stored in `.env.local` (not committed, use `.env.example` as template)
 - Access with `process.env.EXPO_PUBLIC_*` (prefix required for Expo)
 - Required vars: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, `EXPO_PUBLIC_POSTHOG_API_KEY`
