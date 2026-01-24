@@ -137,22 +137,15 @@ You can then:
 
 </br></br>
 
-## Useful Commands
+## 📝 Credits & Attribution
+This project originated as a group assignment for the **R&D Experience: disOrderly Saas** course at **KU Leuven**.
 
-```bash
-# Start development server (default)
-npm start
+**Original Team:**
+* **Hugo Fache**
+* **Jano Aerts**
+* **Stijn Geens**
+* **Laurens Pirard**
+* **Yigit Oztorun**
 
-# Start web development server
-npm run web
-
-# Build and serve PWA locally
-npm run pwa
-
-# TypeScript check
-npx tsc --noEmit
-
-# Diagnose environment
-npx expo doctor
-```
-
+**Note on this Fork:**
+This repository is a personal fork of the original project. Commits after December 2025 represent my own independent modifications and improvements for learning purposes.
