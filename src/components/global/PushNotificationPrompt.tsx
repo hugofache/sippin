@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Platform, View } from 'react-native';
+import { Modal, Platform, View, ScrollView } from 'react-native';
 import { Box } from '@/src/components/ui/box';
 import { Text } from '@/src/components/ui/text';
 import { HStack } from '@/src/components/ui/hstack';
@@ -95,110 +95,119 @@ export const PushNotificationPrompt: React.FC<PushNotificationPromptProps> = ({
       animationType="fade"
       onRequestClose={onSkip}
     >
-      <Box className="flex-1 bg-black/50 justify-center items-center p-6">
-        <Box className="bg-white rounded-2xl p-6 max-w-md w-full" style={{ maxWidth: 400 }}>
-          <View style={{ gap: 16 }}>
-            {/* Icon */}
-            <Center>
-              <Box 
-                className="w-20 h-20 rounded-full items-center justify-center"
-                style={{ backgroundColor: colors.primary[100] }}
-              >
-                <Text className="text-4xl">🔔</Text>
-              </Box>
-            </Center>
+      <Box className="flex-1 bg-black/50 justify-center items-center p-4">
+        <Box 
+          className="bg-white rounded-2xl w-full" 
+          style={{ maxWidth: 400, maxHeight: '90%' }}
+        >
+          <ScrollView 
+            className="p-5"
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+          >
+            <View style={{ gap: 14 }}>
+              {/* Icon */}
+              <Center>
+                <Box 
+                  className="w-16 h-16 rounded-full items-center justify-center"
+                  style={{ backgroundColor: colors.primary[100] }}
+                >
+                  <Text className="text-3xl">🔔</Text>
+                </Box>
+              </Center>
 
-            {/* Title */}
-            <View style={{ gap: 8 }}>
-              <Text className="text-2xl font-bold text-center text-gray-900">
-                Stay Updated
-              </Text>
-              <Text className="text-base text-center text-gray-600">
-                Get notified when friends like your cocktails, comment on your posts, or invite you to events
-              </Text>
-            </View>
-
-            {/* Benefits */}
-            <View style={{ gap: 12, paddingVertical: 8 }}>
-              <HStack space="md" className="items-start">
-                <Text className="text-xl">💬</Text>
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Text className="font-semibold text-gray-900">New Comments</Text>
-                  <Text className="text-sm text-gray-600">
-                    When someone comments on your cocktails
-                  </Text>
-                </View>
-              </HStack>
-
-              <HStack space="md" className="items-start">
-                <Text className="text-xl">❤️</Text>
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Text className="font-semibold text-gray-900">Likes & Reactions</Text>
-                  <Text className="text-sm text-gray-600">
-                    When friends appreciate your creations
-                  </Text>
-                </View>
-              </HStack>
-
-              <HStack space="md" className="items-start">
-                <Text className="text-xl">🎉</Text>
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Text className="font-semibold text-gray-900">Event Invites</Text>
-                  <Text className="text-sm text-gray-600">
-                    When you're invited to cocktail events
-                  </Text>
-                </View>
-              </HStack>
-
-              <HStack space="md" className="items-start">
-                <Text className="text-xl">👥</Text>
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Text className="font-semibold text-gray-900">Friend Activity</Text>
-                  <Text className="text-sm text-gray-600">
-                    When friends accept your requests or follow you
-                  </Text>
-                </View>
-              </HStack>
-            </View>
-
-            {/* Error message */}
-            {error && (
-              <Box className="bg-red-50 rounded-lg p-3">
-                <Text className="text-red-700 text-sm text-center">{error}</Text>
-              </Box>
-            )}
-
-            {/* Already granted message */}
-            {isAlreadyGranted && !error && (
-              <Box className="bg-green-50 rounded-lg p-3">
-                <Text className="text-green-700 text-sm text-center">
-                  ✓ Notifications are already enabled
+              {/* Title */}
+              <View style={{ gap: 6 }}>
+                <Text className="text-xl font-bold text-center text-gray-900">
+                  Stay Updated
                 </Text>
-              </Box>
-            )}
+                <Text className="text-sm text-center text-gray-600">
+                  Get notified when friends like your cocktails, comment on your posts, or invite you to events
+                </Text>
+              </View>
 
-            {/* Action Buttons */}
-            <View style={{ gap: 8, paddingTop: 8 }}>
-              <PrimaryButton
-                title={isAlreadyGranted ? "Continue" : "Enable Notifications"}
-                onPress={isAlreadyGranted ? () => onComplete(true) : handleEnableNotifications}
-                loading={isLoading}
-                disabled={isLoading}
-              />
-              <Pressable onPress={onSkip} disabled={isLoading} style={{ outline: 'none' } as any}>
-                <Center className="py-3">
-                  <Text className="text-gray-600 font-medium">
-                    Not now
+              {/* Benefits */}
+              <View style={{ gap: 10 }}>
+                <HStack space="sm" className="items-start">
+                  <Text className="text-lg">💬</Text>
+                  <View style={{ flex: 1, gap: 2 }}>
+                    <Text className="text-sm font-semibold text-gray-900">New Comments</Text>
+                    <Text className="text-xs text-gray-600">
+                      When someone comments on your cocktails
+                    </Text>
+                  </View>
+                </HStack>
+
+                <HStack space="sm" className="items-start">
+                  <Text className="text-lg">❤️</Text>
+                  <View style={{ flex: 1, gap: 2 }}>
+                    <Text className="text-sm font-semibold text-gray-900">Likes & Reactions</Text>
+                    <Text className="text-xs text-gray-600">
+                      When friends appreciate your creations
+                    </Text>
+                  </View>
+                </HStack>
+
+                <HStack space="sm" className="items-start">
+                  <Text className="text-lg">🎉</Text>
+                  <View style={{ flex: 1, gap: 2 }}>
+                    <Text className="text-sm font-semibold text-gray-900">Event Invites</Text>
+                    <Text className="text-xs text-gray-600">
+                      When you're invited to cocktail events
+                    </Text>
+                  </View>
+                </HStack>
+
+                <HStack space="sm" className="items-start">
+                  <Text className="text-lg">👥</Text>
+                  <View style={{ flex: 1, gap: 2 }}>
+                    <Text className="text-sm font-semibold text-gray-900">Friend Activity</Text>
+                    <Text className="text-xs text-gray-600">
+                      When friends accept your requests or follow you
+                    </Text>
+                  </View>
+                </HStack>
+              </View>
+
+              {/* Error message */}
+              {error && (
+                <Box className="bg-red-50 rounded-lg p-3">
+                  <Text className="text-red-700 text-sm text-center">{error}</Text>
+                </Box>
+              )}
+
+              {/* Already granted message */}
+              {isAlreadyGranted && !error && (
+                <Box className="bg-green-50 rounded-lg p-3">
+                  <Text className="text-green-700 text-sm text-center">
+                    ✓ Notifications are already enabled
                   </Text>
-                </Center>
-              </Pressable>
-            </View>
+                </Box>
+              )}
 
-            {/* Privacy note */}
-            <Text className="text-xs text-gray-500 text-center">
-              You can change notification preferences anytime in your profile settings
-            </Text>
-          </View>
+              {/* Action Buttons */}
+              <View style={{ gap: 6, paddingTop: 4 }}>
+                <PrimaryButton
+                  title={isAlreadyGranted ? "Continue" : "Enable Notifications"}
+                  onPress={isAlreadyGranted ? () => onComplete(true) : handleEnableNotifications}
+                  loading={isLoading}
+                  disabled={isLoading}
+                />
+                <Pressable onPress={onSkip} disabled={isLoading} style={{ outline: 'none' } as any}>
+                  <Center className="py-2">
+                    <Text className="text-gray-600 text-sm font-medium">
+                      Not now
+                    </Text>
+                  </Center>
+                </Pressable>
+              </View>
+
+              {/* Privacy note */}
+              <Text className="text-xs text-gray-500 text-center">
+                You can change notification preferences anytime in your profile settings
+              </Text>
+            </View>
+          </ScrollView>
         </Box>
       </Box>
     </Modal>
