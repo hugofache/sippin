@@ -116,8 +116,22 @@ const LoginScreen: React.FC = () => {
                     </Text>
                 </Box>
 
-                {/* Login Form */}
+                {/* Google Login Button */}
                 <Box className="w-full mt-8">
+                    <GoogleSignInButton 
+                        onPress={handleGoogleLogin}
+                    />
+                </Box>
+
+                {/* OR Separator */}
+                <Box className="flex-row items-center my-6">
+                    <Box className="flex-1 h-px bg-neutral-300" />
+                    <Text className="mx-4 text-neutral-500 font-medium">OR</Text>
+                    <Box className="flex-1 h-px bg-neutral-300" />
+                </Box>
+
+                {/* Login Form */}
+                <Box className="w-full">
                     <TextInputField
                         label="Email"
                         placeholder="Enter your email"
@@ -182,13 +196,6 @@ const LoginScreen: React.FC = () => {
                             </Text>
                         </Pressable>
                     </View>
-                </Box>
-
-                {/* Google Login Button */}
-                <Box className="mt-0">
-                    <GoogleSignInButton 
-                        onPress={handleGoogleLogin}
-                    />
                 </Box>
 
                 {/* Footer space for keyboard */}
