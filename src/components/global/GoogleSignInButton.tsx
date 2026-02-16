@@ -34,10 +34,10 @@ export const GoogleSignInButton: React.FC<Props> = ({ onPress, theme = 'light' }
     <Pressable
       onPress={onPress}
       style={({ pressed }) => ({
-        // Google guidelines: min height 40-44px for accessibility
-        height: 40,
-        // Google guidelines: rounded corners (pill or rectangular)
-        borderRadius: 4,
+        // Match PrimaryButton height: paddingVertical 12px to align with Sign In button
+        paddingVertical: 12,
+        // Match PrimaryButton border radius
+        borderRadius: 8,
         borderWidth: theme === 'neutral' ? 0 : 1,
         borderColor: currentTheme.borderColor,
         backgroundColor: currentTheme.backgroundColor,
@@ -48,7 +48,7 @@ export const GoogleSignInButton: React.FC<Props> = ({ onPress, theme = 'light' }
         flexDirection: 'row',
         justifyContent: 'center',
         width: '100%',
-        maxWidth: 190,
+        // Removed maxWidth to match PrimaryButton full width behavior
         alignSelf: 'center',
         marginTop: 8,
         // Add pressed state
